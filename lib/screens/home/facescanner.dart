@@ -359,22 +359,25 @@ class _FaceScannerState extends State<FaceScanner> {
     required String label,
     required VoidCallback onPressed,
   }) {
-    return ElevatedButton.icon(
-      icon: Icon(icon, size: 24),
-      label: Text(
-        label,
-        style: const TextStyle(fontSize: 16),
-      ),
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-        backgroundColor: Colors.blue[800],
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return SizedBox(
+      width: double.infinity, // يجعل الزر بعرض الحاوية بالكامل
+      child: ElevatedButton.icon(
+        icon: Icon(icon, size: 28),
+        label: Text(
+          label,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        elevation: 3,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 20), // تكبير الارتفاع
+          backgroundColor: Colors.blue[800],
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          elevation: 4,
+        ),
+        onPressed: onPressed,
       ),
-      onPressed: onPressed,
     );
   }
 }

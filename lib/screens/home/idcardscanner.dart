@@ -140,20 +140,27 @@ class _IdCardScannerState extends State<IdCardScanner> {
                         )
                       ],
                     )
-                  : ElevatedButton.icon(
-                      icon: const Icon(Icons.camera_alt, size: 28),
-                      label: const Text(
-                        'مسح البطاقة',
-                        style: TextStyle(fontSize: 18),
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.camera_alt,
+                            size: 28, color: Colors.white),
+                        label: const Text(
+                          'مسح البطاقة',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          backgroundColor: Colors.blue[800],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          elevation: 4,
+                        ),
+                        onPressed: scanId,
                       ),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 15),
-                        backgroundColor: Colors.blue[800],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      onPressed: scanId,
                     ),
             ],
           ),
