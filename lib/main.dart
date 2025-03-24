@@ -1,14 +1,11 @@
 import 'package:face/screens/onboarding/splash_screen.dart';
 import 'package:flutter/material.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  // Uncomment the following lines if you need Firebase initialization
-  /*
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  */
   runApp(const MyApp());
 }
 

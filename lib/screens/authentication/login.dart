@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:face/constants/constants.dart';
 import 'package:face/screens/authentication/forgotpassword.dart';
 import 'package:face/screens/authentication/signup.dart';
-import 'package:face/screens/home/home.dart'; // تأكد من استيراد صفحة HomeScreen
-import 'package:flutter/material.dart';
-
+import 'package:face/screens/home/home.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -17,13 +17,40 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  void _login() {
-    // يمكنك إضافة التحقق من صحة البيانات هنا قبل الانتقال إلى HomeScreen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+Future<void> _login() async {
+  try {
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: _email.text.trim(),
+      password: _password.text.trim(),
+    );
+    
+    // التحقق من نجاح الدخول
+    if (userCredential.user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    }
+  } on FirebaseAuthException catch (e) {
+    String errorMessage = 'An error occurred';
+    if (e.code == 'user-not-found') {
+      errorMessage = 'No user found for that email';
+    } else if (e.code == 'wrong-password') {
+      errorMessage = 'Incorrect password';
+    } else if (e.code == 'invalid-email') {
+      errorMessage = 'The email address is not valid';
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage)),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('An unexpected error occurred')),
     );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -73,24 +100,39 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFormField(
                             controller: _email,
                             decoration: InputDecoration(
-                              label:
-                                  Text("E-mail", style: TextStyle(color: blue)),
+                              label: Text("E-mail", style: TextStyle(color: blue)),
                               focusColor: blue,
                               prefixIcon: Icon(Icons.email, color: blue),
                               hintStyle: TextStyle(color: blue),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              // إضافة التحقق من صحة البريد الإلكتروني باستخدام تعبير عادي
+                              if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(height: 16),
                           TextFormField(
                             controller: _password,
                             obscureText: true,
                             decoration: InputDecoration(
-                              label: Text("Password",
-                                  style: TextStyle(color: blue)),
+                              label: Text("Password", style: TextStyle(color: blue)),
                               focusColor: blue,
                               prefixIcon: Icon(Icons.lock, color: blue),
                               hintStyle: TextStyle(color: blue),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(height: 16),
                           Row(

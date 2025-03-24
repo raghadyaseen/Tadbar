@@ -1,0 +1,2 @@
+C:/Users/Coding School/Desktop/face-detection-project2-main/android/app/.cxx/Debug/504p1o2j/x86/CMakeFiles/edit_cache.dir
+C:/Users/Coding School/Desktop/face-detection-project2-main/android/app/.cxx/Debug/504p1o2j/x86/CMakeFiles/rebuild_cache.dir
