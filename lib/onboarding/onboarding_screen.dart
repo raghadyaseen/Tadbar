@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../authentication/login.dart';
+import '../auth/login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,24 +12,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  // الألوان الجديدة
+  final Color kPrimaryDarkBlue = const Color(0xFF0A0E2D); // كحلي (أزرق غامق)
+  final Color kAccentOrange = const Color(0xFFE88F3C); // برتقالي
+
+  // النصوص الدينية المعدلة
   final List<Map<String, dynamic>> onboardingPages = [
     {
-      "title": "Effortless Identity Verification & Search",
-      "description":
-          "NAMe streamlines identity checks. Scan cards and faces, or search by ID or name, to quickly access verified information.",
-      "image": "assets/images/onbo.png",
+      "title": "تطبيق مجموعات تدبّر القرءان العظيم",
+      "description": "",
+      "image": "assets/onbording1.png",
     },
     {
-      "title": "Access Verified Data",
-      "description":
-          "Retrieve and view comprehensive data associated with scanned cards, faces, or search queries. All information is presented clearly and securely.",
-      "image": "assets/images/onboard2.jpg",
+      "title":
+          "وَقَالَ ٱلرَّسُولُ يَٰرَبِّ إِنَّ قَوْمِى ٱتَّخَذُوا۟ هَٰذَا ٱلْقُرْءَانَ مَهْجُورًا",
+      "description": "",
+      "image": "assets/onbording2.png",
     },
     {
-      "title": "Your Privacy Matters",
-      "description":
-          "We prioritize your data security. All scans are encrypted and processed securely.",
-      "image": "assets/images/onboard3.png",
+      "title":
+          "َفَلَا يَتَدَبَّرُونَ ٱلْقُرْءَانَ وَلَوْ كَانَ مِنْ عِندِ غَيْرِ ٱللَّهِ لَوَجَدُوا۟ فِيهِ ٱخْتِلَٰفًا كَثِيرًا",
+      "description": "",
+      "image": "assets/onbording3.png",
     },
   ];
 
@@ -41,13 +45,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // إضافة الألوان الجديدة
-    final Color primaryColor = const Color.fromRGBO(0, 120, 215, 1);
-    final Color backgroundColor = const Color.fromRGBO(240, 248, 255, 1);
-    final Color buttonColor = const Color.fromRGBO(58, 133, 194, 1);
-
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: kPrimaryDarkBlue, // الخلفية كحلي
       body: Column(
         children: [
           Expanded(
@@ -60,7 +59,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   title: onboardingPages[index]['title'],
                   description: onboardingPages[index]['description'],
                   image: onboardingPages[index]['image'],
-                  primaryColor: primaryColor,
+                  primaryColor: kAccentOrange, // اللون البرتقالي
+                  backgroundColor: kPrimaryDarkBlue, // الخلفية كحلي
                 );
               },
             ),
@@ -68,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           PageIndicator(
             itemCount: onboardingPages.length,
             currentIndex: _currentPage,
-            primaryColor: primaryColor,
+            primaryColor: kAccentOrange, // اللون البرتقالي
           ),
           const SizedBox(height: 20),
           Padding(
@@ -76,39 +76,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_currentPage == onboardingPages.length - 1) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      } else {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: buttonColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_currentPage == onboardingPages.length - 1) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    } else {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: kAccentOrange, // اللون البرتقالي
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Text(
-                      _currentPage == onboardingPages.length - 1
-                          ? "Get Started"
-                          : "Next",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
+                  ),
+                  child: Text(
+                    _currentPage == onboardingPages.length - 1
+                        ? "ابدأ الآن"
+                        : "التالي",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -126,12 +124,14 @@ class OnboardingPage extends StatelessWidget {
   final String description;
   final String image;
   final Color primaryColor;
+  final Color backgroundColor;
 
   const OnboardingPage({
     required this.title,
     required this.description,
     required this.image,
     required this.primaryColor,
+    required this.backgroundColor,
     Key? key,
   }) : super(key: key);
 
@@ -140,6 +140,7 @@ class OnboardingPage extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Container(
+      color: backgroundColor, // الخلفية كحلي
       width: double.infinity,
       height: double.infinity,
       child: Padding(
@@ -152,7 +153,7 @@ class OnboardingPage extends StatelessWidget {
               width: width * 0.8,
               child: Image.asset(
                 image,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
             ),
             const SizedBox(height: 25),
@@ -161,17 +162,21 @@ class OnboardingPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: primaryColor,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              description,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+                color: primaryColor, // اللون البرتقالي
               ),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white, // نص أبيض
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
@@ -206,7 +211,7 @@ class PageIndicator extends StatelessWidget {
             height: 10,
             width: currentIndex == index ? 20 : 10,
             decoration: BoxDecoration(
-              color: currentIndex == index ? primaryColor : Colors.grey,
+              color: currentIndex == index ? primaryColor : Colors.grey[300],
               borderRadius: BorderRadius.circular(5),
             ),
           ),

@@ -1,12 +1,14 @@
-import 'package:face/screens/onboarding/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+//import 'package:firebase_core/firebase_core.dart'; // استيراد حزمة firebase_core
+
+import 'onboarding/splash_screen.dart'; // شاشة البداية الخاصة بك
+//import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); // تأكيد تهيئة الفلاتر قبل التشغيل
+  // await Firebase.initializeApp(); // تهيئة Firebase
+
+  runApp(const MyApp()); // تشغيل التطبيق بعد التهيئة
 }
 
 class MyApp extends StatelessWidget {
@@ -14,9 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    );
+    return MaterialApp(
+        title: 'Tadbar',
+        debugShowCheckedModeBanner: false,
+        //     ),
+        // theme: ThemeData(
+        //  textTheme: GoogleFonts.latoTextTheme(),
+        //),
+        home: SplashScreen());
   }
 }

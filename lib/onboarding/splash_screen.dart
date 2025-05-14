@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'onboarding.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -114,9 +114,47 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // جعل الخلفية بيضاء بالكامل
+      backgroundColor: const Color(0xFF0A0E2D), // كحلي (أزرق داكن)
       body: Stack(
         children: [
+          ...List.generate(_particles.length, (index) {
+            return AnimatedBuilder(
+              animation: _particleController,
+              builder: (context, child) {
+                final particle = _particles[index];
+                final progress = _particleController.value;
+                final offsetY = progress * MediaQuery.of(context).size.height;
+                return Positioned(
+                  left: particle.x,
+                  top: (particle.y + offsetY) %
+                      MediaQuery.of(context).size.height,
+                  child: Transform.rotate(
+                    angle: progress * 2 * pi,
+                    child: Container(
+                      width: particle.size,
+                      height: particle.size,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
+          Container(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.center,
+                radius: 1.2,
+                colors: [
+                  const Color(0xFF1A1F4B), // كحلي داكن
+                  const Color(0xFF0A0E2D).withOpacity(0.8), // كحلي داكن أكثر
+                ],
+              ),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +215,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 child: Image(
                                   width: 130,
                                   height: 130,
-                                  image: AssetImage("assets/images/logo.png"),
+                                  image: AssetImage("assets/logo1.jpg"),
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -202,11 +240,12 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Column(
                       children: [
                         Image.asset(
-                          "assets/images/logotext.png",
+                          "assets/logo.png",
                           width: 200,
                           height: 125,
                         ),
                         const SizedBox(height: 12),
+                        //
                       ],
                     ),
                   ),
